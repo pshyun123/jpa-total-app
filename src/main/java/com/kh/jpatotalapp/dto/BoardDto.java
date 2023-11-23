@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-
+// 리액트와 Json 서로의 키 값이 됨
 @Getter
 @Setter
 public class BoardDto {

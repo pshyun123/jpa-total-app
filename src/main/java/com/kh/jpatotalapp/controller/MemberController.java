@@ -40,13 +40,13 @@ public class MemberController {
     }
     // 회원 상세 조회
     @GetMapping("/detail/{email}")
-    public ResponseEntity<MemberDto> memberDetail(@PathVariable String email) {
+    public ResponseEntity<MemberDto> memberDetail(@PathVariable String email) { //{}사용해서 PathVariable사용 할것이라고 선언. 웬만하면 아이디 같은 고유값. 외래값으로 쓰는 것들을 사용
         MemberDto memberDto = memberService.getMemberDetail(email);
         return ResponseEntity.ok(memberDto);
     }
     // 회원 수정
     @PutMapping("/modify")
-    public ResponseEntity<Boolean> memberModify(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Boolean> memberModify(@RequestBody MemberDto memberDto) { // json 데이터를 통으로 받음
         log.info("memberDto: {}", memberDto.getEmail());
         boolean isTrue = memberService.modifyMember(memberDto);
         return ResponseEntity.ok(isTrue);
@@ -65,7 +65,7 @@ public class MemberController {
     }
     // 회원 존재 여부 확인
     @GetMapping("/check")
-    public ResponseEntity<Boolean> isMember(@RequestParam String email) {
+    public ResponseEntity<Boolean> isMember(@RequestParam String email) { // ?,?,?,?자리에 해당 값이 보임 //post 방식 제외하고는 다 주소창에 뜬다.
         log.info("email: {}", email);
         boolean isReg = memberService.isMember(email);
         return ResponseEntity.ok(!isReg);

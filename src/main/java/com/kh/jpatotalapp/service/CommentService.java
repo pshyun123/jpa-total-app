@@ -1,5 +1,6 @@
 package com.kh.jpatotalapp.service;
 
+import com.kh.jpatotalapp.dto.BoardDto;
 import com.kh.jpatotalapp.dto.CommentDto;
 import com.kh.jpatotalapp.entity.Board;
 import com.kh.jpatotalapp.entity.Comment;
@@ -8,6 +9,8 @@ import com.kh.jpatotalapp.repository.BoardRepository;
 import com.kh.jpatotalapp.repository.CommentRepository;
 import com.kh.jpatotalapp.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -85,10 +88,27 @@ public class CommentService {
     }
 
     // 댓글 목록 페이징
-    // 댓글 상세
+    public List<CommentDto> getCommentList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Comment> comments = commentRepository.findAll(pageable).getContent();
+        List<CommentDto> commentDtos = new ArrayList<>();
+        for (Comment comment : comments) {
+            commentDtos.add(convertEntityToDto(comment));
+        }
+        return commentDtos; //맞나?
+    }
+
+    // 댓글 상세 조회
+    public CommentDto getCommentDetail(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("해당 댓글이 존재하지 않습니다.")
+        );
+        return convertEntityToDto(comment); // 엔티티를 DTO로 변환하여 반환
+
+    }
 
     // 댓글 검색
-    public List<CommentDto> getCommentList(String keyword) {
+    public List<CommentDto> getCommentSearch(String keyword) {
         List<Comment> comments = commentRepository.findByContentContaining(keyword);
         List<CommentDto> commentDtos = new ArrayList<>();
         for (Comment comment : comments) {

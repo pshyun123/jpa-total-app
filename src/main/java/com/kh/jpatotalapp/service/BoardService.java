@@ -22,9 +22,9 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final CategoryRepository categoryRepository;
     // 게시글 등록
-    public boolean saveBoard(BoardDto boardDto) { // dto 파일에서 생성자를 가져옴?
+    public boolean saveBoard(BoardDto boardDto) { // dto
         try {
-            Board board = new Board(); // 새로운 Board객체 생성 /대문자 Board와 소문자 board의 차이?
+            Board board = new Board(); // 새로운 Board객체 생성, 변수 생성
             Member member = memberRepository.findByEmail(boardDto.getEmail()).orElseThrow(
                     () -> new RuntimeException("해당 회원이 존재하지 않습니다.")
             );
@@ -65,11 +65,6 @@ public class BoardService {
         return convertEntityToDto(board); // 엔티티를 DTO로 변환하여 반환
 
     }
-//    public Board getBoardById(Long boardId) {
-//        return boardRepository.findById(boardId)
-//                .orElseThrow(() -> new RuntimeException("해당 ID의 게시글이 존재하지 않습니다."));
-//    } -> 이 방법이랑 위의 방법의 다른점?
-
 
     //게시글 수정
     public boolean modifyBoard(Long id, BoardDto boardDto) {
@@ -117,7 +112,7 @@ public class BoardService {
         return boardDtos;
     }
 
-    //게시글 엔티티를 DTO로 변환
+    //게시글 엔티티를 DTO로 변환 (select로 값을 보내주는 경우)
     private BoardDto convertEntityToDto (Board board){
         BoardDto boardDto = new BoardDto();
         boardDto.setBoardId(board.getBoardId());
