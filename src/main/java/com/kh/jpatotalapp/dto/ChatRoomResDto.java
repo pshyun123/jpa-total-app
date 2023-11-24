@@ -47,6 +47,8 @@ public class ChatRoomResDto {
             }
             log.debug("Session removed: " + session);
         } else {
+            // 채팅 메세지 보낼때마다 메세지 저장
+            chatService.saveMessage(chatMessage.getRoomId(), chatMessage.getSender(), chatMessage.getMessage());
             log.debug("Message received: " + chatMessage.getMessage());
         }
         if (this.isSessionEmpty()) {

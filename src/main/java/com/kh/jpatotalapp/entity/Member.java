@@ -29,4 +29,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Board> boards;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Chat> chats;
 }

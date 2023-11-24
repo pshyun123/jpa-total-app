@@ -2,6 +2,10 @@ package com.kh.jpatotalapp.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.jpatotalapp.dto.ChatRoomResDto;
+import com.kh.jpatotalapp.entity.ChatRoom;
+import com.kh.jpatotalapp.entity.Chat;
+import com.kh.jpatotalapp.repository.ChatRepository;
+import com.kh.jpatotalapp.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,8 @@ import java.util.*;
 public class ChatService {
     private final ObjectMapper objectMapper;
     private Map<String, ChatRoomResDto> chatRooms;
+    private final ChatRepository chatRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @PostConstruct // 의존성 주입 이후 초기화를 수행하는 메소드
     private void init() {
@@ -40,6 +46,11 @@ public class ChatService {
                 .name(name)
                 .regDate(LocalDateTime.now())
                 .build();
+        ChatRoom chatRoomEntity = new ChatRoom();
+        chatRoomEntity.setRoomId(randomId);
+        chatRoomEntity.setRoomName(name);
+        chatRoomEntity.setCreatedAt(LocalDateTime.now());
+        chatRoomRepository.save(chatRoomEntity);
         chatRooms.put(randomId, chatRoom);
         return chatRoom;
     }
@@ -57,5 +68,20 @@ public class ChatService {
         } catch(IOException e) {
             log.error(e.getMessage(), e);
         }
+    }
+    // 채팅 메세지 DB저장
+    public void saveMessage(String roomId, String sender, String message) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("해당 채팅방이 존재하지 않습니다."));
+        Chat chatMessage = new Chat();
+        chatMessage.setChatRoom(chatRoom);
+        chatMessage.setSender(sender);
+        chatMessage.setMessage(message);
+        chatMessage.setSentAt(LocalDateTime.now());
+        chatRepository.save(chatMessage);
+    }
+    // 이전 채팅 가져오기
+    public List<Chat> getRecentMessages(String roomId) {
+        return chatRepository.findRecentMessages(roomId);
     }
 }
