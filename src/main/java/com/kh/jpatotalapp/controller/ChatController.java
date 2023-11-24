@@ -33,23 +33,10 @@ public class ChatController {
     public List<ChatRoomResDto> findAllRoom() {
         return chatService.findAllRoom();
     }
-    @PostMapping("/message")
-    public ResponseEntity<Void> saveMessage(@RequestBody ChatMessageDto chatMessageDTO) {
-        chatService.saveMessage(chatMessageDTO.getRoomId(), chatMessageDTO.getSender(), chatMessageDTO.getMessage());
-        return new ResponseEntity<>(HttpStatus.OK);
+
+    // 방 정보 가져오기
+    @GetMapping("/room/{roomId}")
+    public ChatRoomResDto findRoomById(@PathVariable String roomId) {
+        return chatService.findRoomById(roomId);
     }
-
-    @GetMapping("/message/{roomId}")
-    public List<Chat> getRecentMessages(@PathVariable String roomId) {
-        return chatService.getRecentMessages(roomId);
-    }
-
-    @GetMapping("/chatroom/{roomId}")
-    public ResponseEntity<ChatRoomResDto> chatRoomInfo(@PathVariable String roomId){
-        ChatRoomResDto room = chatService.findRoomById(roomId);
-        return ResponseEntity.ok(room);
-    }
-
-
-
 }

@@ -76,5 +76,4 @@ public class MemberController {
         boolean isTrue = memberService.deleteMember(email);
         return ResponseEntity.ok(isTrue);
     }
-
 }

@@ -28,18 +28,26 @@ protected void handleTextMessage(WebSocketSession session, TextMessage message) 
         String payload = message.getPayload();
         log.warn("{}", payload);
         ChatMessageDto chatMessage = objectMapper.readValue(payload, ChatMessageDto.class);
-        ChatRoomResDto chatRoom = chatService.findRoomById(chatMessage.getRoomId());
+        String roomId = chatMessage.getRoomId();
         // 세션과 채팅방 ID를 매핑
         sessionRoomIdMap.put(session, chatMessage.getRoomId());
-        chatRoom.handlerActions(session, chatMessage, chatService);
+        if (chatMessage.getType() == ChatMessageDto.MessageType.ENTER) {
+                chatService.addSessionAndHandleEnter(roomId, session, chatMessage);
+        } else if (chatMessage.getType() == ChatMessageDto.MessageType.CLOSE) {
+                chatService.removeSessionAndHandleExit(roomId, session, chatMessage);
+        } else {
+                chatService.sendMessageToAll(roomId, chatMessage);
         }
-@Override
-public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        // 세션과 매핑된 채팅방 ID 가져오기
-        String roomId = sessionRoomIdMap.remove(session);
-        if (roomId != null) {
-        ChatRoomResDto chatRoom = chatService.findRoomById(roomId);
-        chatRoom.handleSessionClosed(session, chatService);
+
+}
+        @Override
+        public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+                // 세션과 매핑된 채팅방 ID 가져오기
+                String roomId = sessionRoomIdMap.remove(session);
+                if (roomId != null) {
+                        ChatMessageDto chatMessage = new ChatMessageDto();
+                        chatMessage.setType(ChatMessageDto.MessageType.CLOSE);
+                        chatService.removeSessionAndHandleExit(roomId, session, chatMessage);
+                }
         }
-        }
-        }
+}
