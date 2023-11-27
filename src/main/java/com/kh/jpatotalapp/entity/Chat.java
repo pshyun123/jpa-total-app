@@ -21,6 +21,9 @@ public class Chat {
     @Column(name = "sender")
     private String sender;
 
+    @Column(name = "setSenderName")
+    private String senderName;
+
     @Column(name = "message")
     private String message;
 

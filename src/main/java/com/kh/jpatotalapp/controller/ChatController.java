@@ -1,9 +1,7 @@
 package com.kh.jpatotalapp.controller;
 
-import com.kh.jpatotalapp.dto.ChatMessageDto;
 import com.kh.jpatotalapp.dto.ChatRoomResDto;
 import com.kh.jpatotalapp.dto.ChatRoomReqDto;
-import com.kh.jpatotalapp.entity.Chat;
 import com.kh.jpatotalapp.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +30,12 @@ public class ChatController {
     @GetMapping("/list")
     public List<ChatRoomResDto> findAllRoom() {
         return chatService.findAllRoom();
+    }
+
+    @GetMapping("/chatroom/{roomId}")
+    public ResponseEntity<ChatRoomResDto> chatRoomInfo(@PathVariable String roomId){
+        ChatRoomResDto room = chatService.findRoomById(roomId);
+        return ResponseEntity.ok(room);
     }
 
     // 방 정보 가져오기
