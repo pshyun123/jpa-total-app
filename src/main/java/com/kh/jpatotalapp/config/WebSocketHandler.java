@@ -14,7 +14,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-//핸들러 : 엔터가 들어오면 서비스에 명령전달
+//핸들러 : ENTER가 들어오면 서비스에 명령전달
 @RequiredArgsConstructor
 @Slf4j
 @Component
