@@ -8,9 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-@Component
-// 인증 실패시 401 에러 리턴할 클래스
+//토큰 만료 되었을 때 401에러!!
+@Component// 클래스를 빈으로 등록 // 인증 실패시 401 에러 리턴할 클래스
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException{

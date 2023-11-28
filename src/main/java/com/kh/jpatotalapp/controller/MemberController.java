@@ -2,6 +2,7 @@ package com.kh.jpatotalapp.controller;
 import com.kh.jpatotalapp.dto.MemberDto;
 import com.kh.jpatotalapp.dto.MemberReqDto;
 import com.kh.jpatotalapp.dto.MemberResDto;
+import com.kh.jpatotalapp.security.SecurityUtil;
 import com.kh.jpatotalapp.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +42,10 @@ public class MemberController {
         return ResponseEntity.ok(list);
     }
     // 회원 상세 조회
-    @GetMapping("/detail/{email}")
-    public ResponseEntity<MemberResDto> memberDetail(@PathVariable String email) { //{}사용해서 PathVariable사용 할것이라고 선언. 웬만하면 아이디 같은 고유값. 외래값으로 쓰는 것들을 사용
-        MemberResDto memberDto = memberService.getMemberDetail(email);
+    @GetMapping("/detail")
+    public ResponseEntity<MemberResDto> memberDetail() { //{}사용해서 PathVariable사용 할것이라고 선언. 웬만하면 아이디 같은 고유값. 외래값으로 쓰는 것들을 사용
+        Long id = SecurityUtil.getCurrentMemberId(); // SecurityUtil을 부름(보안)
+        MemberResDto memberDto = memberService.getMemberDetail(id);
         return ResponseEntity.ok(memberDto);
     }
     // 회원 수정

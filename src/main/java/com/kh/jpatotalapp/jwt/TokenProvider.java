@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-// 토큰 생성, 토큰 검증, 토큰에서 회원정보 추출
+// 토큰 생성, 토큰 검증. 토큰에서 회원정보 추출 /사용자 정보로 JWT 토큰을 만들거나 토큰을 바탕으로 유저 정보를 가져 옴
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth"; // 토큰에 저장되는 권한 정보의 key
     private static final String BEARER_TYPE = "Bearer"; // 토큰 타입
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 24L; // 24시간동안 유효
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 24시간동안 유효1000 * 60 * 24L
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7L; // 7일
     private final Key key; //토큰을 서명하기 위한 키
 
@@ -111,7 +111,7 @@ public class TokenProvider {
 
         }
         // 토큰 복호화
-    private Claims parseClaims(String accessToken) {
+    private Claims parseClaims(String accessToken) { //Claims 에 담긴 유저 정보를 풀어줌
         try{
             return io.jsonwebtoken.Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         }catch(ExpiredJwtException e) {
