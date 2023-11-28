@@ -11,13 +11,13 @@ public class SecurityUtil {
     }
     // Security Context의 Authentication 객체를 이용해 '회원의 정보 가져옴'
     // 컨트롤러가 이녀석을 부름
-        public static Long getCurrentMemberId() {
-            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null || authentication.getName() == null) {
-                throw new RuntimeException("Security Context에 인증 정보가 없습니다.");
-            }
-            return Long.parseLong(authentication.getName());
+    public static Long getCurrentMemberId() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getName() == null) {
+            throw new RuntimeException("Security Context에 인증 정보가 없습니다.");
         }
+        return Long.parseLong(authentication.getName());
+    }
 
     // Security Context의 Authentication 객체를 이용해 회원 이메일 가져옴
         public static String getCurrentMemberEmail() {

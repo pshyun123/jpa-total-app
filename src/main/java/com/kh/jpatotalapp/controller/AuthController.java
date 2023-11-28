@@ -35,4 +35,11 @@ public class AuthController {
         boolean isTrue = memberService.isMember(email);
         return ResponseEntity.ok(!isTrue);
     }
+
+    // 리프레시 토큰 적용
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDto> newToken(@RequestBody String refreshToken){
+        log.info("refreshToken: {}", refreshToken);
+        return ResponseEntity.ok(authService.refreshAccessToken(refreshToken));
+    }
 }

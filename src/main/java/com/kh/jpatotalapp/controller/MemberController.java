@@ -10,10 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
+//import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 
 @Slf4j
-@CrossOrigin(origins = CORS_ORIGIN)
+//@CrossOrigin(origins = CORS_ORIGIN)
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

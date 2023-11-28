@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class TokenProvider {
     private static final String AUTHORITIES_KEY = "auth"; // 토큰에 저장되는 권한 정보의 key
     private static final String BEARER_TYPE = "Bearer"; // 토큰 타입
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 24시간동안 유효1000 * 60 * 24L
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 10; // 24시간동안 유효1000 * 60 * 24L
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7L; // 7일
     private final Key key; //토큰을 서명하기 위한 키
 
@@ -60,9 +60,12 @@ public class TokenProvider {
 
         // 리프레시 토큰 생성
         String refreshToken = io.jsonwebtoken.Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(refresshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
+
         // 토큰 정보를 담은 TokenDto 객체 생성
         return TokenDto.builder()
                 .grantType(BEARER_TYPE)
@@ -118,4 +121,5 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
 }
