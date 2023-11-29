@@ -49,16 +49,16 @@ public class AuthService {
 
     }
 
-        // refreshToken 검증
-        public TokenDto refreshAccessToken(String refreshToken) {
-            try{
-                if (tokenProvider.validateToken(refreshToken)){
-                    return tokenProvider.generateTokenDto(tokenProvider.getAuthentication(refreshToken));
-                }
-            }catch (RuntimeException e) {
-                log.error("토큰 유효성 검증 중 예외발생 : {}", e.getMessage());
+    // refreshToken 검증
+    public TokenDto refreshAccessToken(String refreshToken) {
+        try{
+            if (tokenProvider.validateToken(refreshToken)){
+                return tokenProvider.generateTokenDto(tokenProvider.getAuthentication(refreshToken));
             }
-            return null;
+        }catch (RuntimeException e) {
+            log.error("토큰 유효성 검증 중 예외발생 : {}", e.getMessage());
         }
+        return null;
     }
+}
 
