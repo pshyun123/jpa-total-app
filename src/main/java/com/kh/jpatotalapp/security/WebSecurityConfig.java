@@ -49,7 +49,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**", "/ws/**", "/movies/**").permitAll()
+                .antMatchers("/auth/**", "/ws/**", "/movies/**", "test/**").permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**", "/sign-api/exception").permitAll()//보안 필요 없이 접근 가능한 애들. 컨트롤러 경로. **은 뒤에 무엇이 오든
                 .anyRequest().authenticated()
                 .and()

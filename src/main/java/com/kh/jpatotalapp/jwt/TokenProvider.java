@@ -58,7 +58,7 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        // 리프레시 토큰 생성
+        // 리프레시 토큰 생성(hj)
         String refreshToken = io.jsonwebtoken.Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
