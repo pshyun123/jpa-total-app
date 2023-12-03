@@ -1,5 +1,6 @@
 package com.kh.jpatotalapp.jwt;
 
+import com.kh.jpatotalapp.dto.AccessTokenDto;
 import com.kh.jpatotalapp.dto.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -75,6 +76,34 @@ public class TokenProvider {
                 .refreshTokenExpiresIn(refresshTokenExpiresIn.getTime())
                 .build();
     }
+
+    //AccessToken관련 내용 추가!!
+    public AccessTokenDto generateAccessTokenDto(Authentication authentication) {
+        //권한 정보 문자열 생성,
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        long now = (new java.util.Date()).getTime(); // 현재 시간
+        // 토큰 만료 시간 설정
+        Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME); // 액세스 토큰 만료 시간
+
+        // 토큰 생성
+        String accessToken = io.jsonwebtoken.Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim(AUTHORITIES_KEY, authorities)
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        return AccessTokenDto.builder()
+                .grantType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
+                .build();
+    }
+
+
     public Authentication getAuthentication(String accessToken){
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);

@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-//들어온 토큰 검증
+//들어온 토큰 검증!!
 //인증된 사용자만 접근할 수 있도록 모든 HTTP 요청에 대해 JWT 토큰의 유효성을 검사, 유효한 경우 해당 토큰에 대한 인증 정보를 설정
 @Slf4j
 @RequiredArgsConstructor

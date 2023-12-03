@@ -30,16 +30,7 @@ public class MemberService {
         );
         return convertEntityToDto(member);
     }
-    // 회원 가입
-//    public boolean saveMember(MemberReqDto memberDto) {
-//        Member member = new Member();
-//        member.setEmail(memberDto.getEmail());
-//        member.setName(memberDto.getName());
-//        member.setPassword(memberDto.getPassword());
-//        member.setImage(memberDto.getImage());
-//        memberRepository.save(member);
-//        return true;
-//    }
+
     // 회원 수정
     public boolean modifyMember(MemberReqDto memberDto) {
         try {
@@ -56,13 +47,6 @@ public class MemberService {
         }
     }
 
-    // 로그인
-//    public boolean login(String email, String pwd) {
-//        log.info("email: {}, pwd: {}", email, pwd);
-//        Optional<Member> member = memberRepository.findByEmailAndPassword(email, pwd);
-//        log.info("member: {}", member);
-//        return member.isPresent();
-//    }
     // 회원 삭제
     public boolean deleteMember(String email) {
         try {

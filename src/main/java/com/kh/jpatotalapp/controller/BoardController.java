@@ -14,7 +14,10 @@ import java.util.List;
 import static com.kh.jpatotalapp.utils.Common.CORS_ORIGIN;
 
 @Slf4j
-@CrossOrigin(origins = CORS_ORIGIN)//이거의 의미?
+//@CrossOrigin(origins = CORS_ORIGIN)// CrossOrigin은  다른 도메인에서의 HTTP 요청을 받아들일지를 설정하는 것
+// 이를 통해 웹 애플리케이션이 클라이언트와 서버 간의 안전한 교환을 가능하게 함.
+//CrossOrigin(*) 모든 요청에 접근 허용
+// 여기서 주석처리 한 이유는 WebSecurityConfig에 값을 넣어주고 먼저 거쳐가기 때문에 필요가 없어졌기 때문
 @RestController
 @RequestMapping("/api/board")
 @RequiredArgsConstructor

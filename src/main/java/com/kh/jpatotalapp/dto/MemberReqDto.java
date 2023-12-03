@@ -17,7 +17,8 @@ public class MemberReqDto {
     private String password;
     private String name;
     private String image;
-    // MemberReqDto -> Member
+
+    // MemberReqDto 객체 -> Member 엔터티로 변환
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)
@@ -27,6 +28,9 @@ public class MemberReqDto {
                 .authority(Authority.ROLE_USER)
                 .build();
     }
+
+    // Authentication 객체로 변환하는 메서드
+    // toAuthentication은 Spring Security의 UsernamePasswordAuthenticationToken으로 변환하여 인증을 수행
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);
     }
